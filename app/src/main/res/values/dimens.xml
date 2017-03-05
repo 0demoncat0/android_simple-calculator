@@ -1,0 +1,9 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="ParentLayoutPaddingTop">16dp</dimen>
+    <dimen name="ParentLayoutPaddingRight">0dp</dimen>
+    <dimen name="ParentLayoutPaddingBottom">0dp</dimen>
+    <dimen name="ParentLayoutPaddingLeft">0dp</dimen>
+    <dimen name="ButtonPadding">0dp</dimen>
+    <dimen name="RowHeight">62dp</dimen>
+</resources>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Máy tính</string>
+    <string name="add">+</string>
+    <string name="sub">-</string>
+    <string name="mul">×</string>
+    <string name="div">÷</string>
+    <string name="sign">+/-</string>
+</resources>
