@@ -1,19 +1,18 @@
 package com.example.ctn.caculator;
 
-import android.icu.text.DecimalFormat;
-import android.icu.text.StringPrepParseException;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,32 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String V_MULTIPLICATION = "&#215;";
     private static final String V_DIVISION = "&#247;";
 
-    private Button btn_0;
-    private Button btn_1;
-    private Button btn_2;
-    private Button btn_3;
-    private Button btn_4;
-    private Button btn_5;
-    private Button btn_6;
-    private Button btn_7;
-    private Button btn_8;
-    private Button btn_9;
-    private Button btn_dot;
-    private Button btn_clear;
-    private Button btn_mul;
-    private Button btn_div;
-    private Button btn_add;
-    private Button btn_sub;
-    private Button btn_del;
-    private Button btn_brace;
-    private Button btn_sign;
-    private Button btn_equal;
-    private ImageButton btn_history;
-
     private String input;
     private String output;
     private TextView mainTextView;
-
 
     private ArrayList<String> values;
     private ArrayList<String> types;
@@ -75,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
         // init variables
         input = "";
         output = "";
-        values = new ArrayList<String>();
-        types = new ArrayList<String>();
+        values = new ArrayList<>();
+        types = new ArrayList<>();
         size = 0;
         mainTextView = (TextView) findViewById(R.id.mainTextView);
         mainTextView.setMovementMethod(new ScrollingMovementMethod());
@@ -86,21 +62,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void caculate() {
-        String kq ="";
-        Balan balan = new Balan();
+        String result = "";
         String baiToan = input.trim();
         if (baiToan.trim().length() > 0) {
-            String ketQua = balan.valueMath(baiToan).toString();
-            String loi = balan.getError();
-            if (loi != null) {
-                kq = loi;
+            Calulate c = new Calulate(baiToan);
+            if (c.isError()) {
+                result = c.getError();
             } else {
-                kq = ketQua;
+                DecimalFormat df = new DecimalFormat("#.####");
+                df.setRoundingMode(RoundingMode.CEILING);
+                result = df.format(c.getResult());
             }
         }
         input = "";
         output = "";
-        if (!values.isEmpty() && !kq.isEmpty()) {
+        if (!values.isEmpty() && !result.isEmpty()) {
             for (int i = 0; i < size; i++) {
                 if (values.get(i).equals(String.valueOf(OP_ADDITION))) {
                     output += "<font color=\"#1393b6\">"+V_ADDITION+"</font>";
@@ -119,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             //output+= "\n= "+kq;
-            output += "<font color=\"#3da23e\">" + "<br>= "+ kq + "</font>";
+            output += "<font color=\"#3da23e\">" + "<br>= "+ result + "</font>";
         }
         mainTextView.setText(Html.fromHtml(output),TextView.BufferType.SPANNABLE);
     }
@@ -153,70 +129,70 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initButtons() {
-        btn_0 = (Button) findViewById(R.id.buttonZero);
+        Button btn_0 = (Button) findViewById(R.id.buttonZero);
         btn_0.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 numberButtonClickHandler(0);
             }
         });
 
-        btn_1 = (Button) findViewById(R.id.buttonOne);
+        Button btn_1 = (Button) findViewById(R.id.buttonOne);
         btn_1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 numberButtonClickHandler(1);
             }
         });
 
-        btn_2 = (Button) findViewById(R.id.buttonTwo);
+        Button btn_2 = (Button) findViewById(R.id.buttonTwo);
         btn_2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 numberButtonClickHandler(2);
             }
         });
 
-        btn_3 = (Button) findViewById(R.id.buttonThree);
+        Button btn_3 = (Button) findViewById(R.id.buttonThree);
         btn_3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 numberButtonClickHandler(3);
             }
         });
 
-        btn_4 = (Button) findViewById(R.id.buttonFour);
+        Button btn_4 = (Button) findViewById(R.id.buttonFour);
         btn_4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 numberButtonClickHandler(4);
             }
         });
 
-        btn_5 = (Button) findViewById(R.id.buttonFive);
+        Button btn_5 = (Button) findViewById(R.id.buttonFive);
         btn_5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 numberButtonClickHandler(5);
             }
         });
 
-        btn_6 = (Button) findViewById(R.id.buttonSix);
+        Button btn_6 = (Button) findViewById(R.id.buttonSix);
         btn_6.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 numberButtonClickHandler(6);
             }
         });
 
-        btn_7 = (Button) findViewById(R.id.buttonSeven);
+        Button btn_7 = (Button) findViewById(R.id.buttonSeven);
         btn_7.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 numberButtonClickHandler(7);
             }
         });
 
-        btn_8 = (Button) findViewById(R.id.buttonEight);
+        Button btn_8 = (Button) findViewById(R.id.buttonEight);
         btn_8.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 numberButtonClickHandler(8);
             }
         });
 
-        btn_9 = (Button) findViewById(R.id.buttonNine);
+        Button btn_9 = (Button) findViewById(R.id.buttonNine);
         btn_9.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 numberButtonClickHandler(9);
@@ -226,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
 
         // === SPEC BUTTONS ===
 
-        btn_dot = (Button) findViewById(R.id.buttonDot);
+        Button btn_dot = (Button) findViewById(R.id.buttonDot);
         btn_dot.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (size > 0) {
@@ -261,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        btn_sign = (Button) findViewById(R.id.buttonSign);
+        Button btn_sign = (Button) findViewById(R.id.buttonSign);
         btn_sign.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (size == 0) {
@@ -327,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        btn_clear = (Button) findViewById(R.id.buttonClear);
+        Button btn_clear = (Button) findViewById(R.id.buttonClear);
         btn_clear.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 input = "";
@@ -340,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_mul = (Button) findViewById(R.id.buttonMul);
+        Button btn_mul = (Button) findViewById(R.id.buttonMul);
         btn_mul.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (size > 0) {
@@ -352,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_div = (Button) findViewById(R.id.buttonDiv);
+        Button btn_div = (Button) findViewById(R.id.buttonDiv);
         btn_div.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (size > 0) {
@@ -364,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_add = (Button) findViewById(R.id.buttonAdd);
+        Button btn_add = (Button) findViewById(R.id.buttonAdd);
         btn_add.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (size > 0) {
@@ -376,7 +352,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_sub = (Button) findViewById(R.id.buttonSub);
+        Button btn_sub = (Button) findViewById(R.id.buttonSub);
         btn_sub.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (size > 0) {
@@ -388,7 +364,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_del = (Button) findViewById(R.id.buttonDel);
+        Button btn_del = (Button) findViewById(R.id.buttonDel);
         btn_del.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (size>0){
@@ -413,12 +389,12 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     }
-                    else if (types.get(size-1) == TYPE_OPENBRACE) {
+                    else if (types.get(size-1).equals(TYPE_OPENBRACE)) {
                         // xoa dau mo ngoac
                         deleteValue(size-1);
                         openingBraces--;
                     }
-                    else if (types.get(size-1) == TYPE_CLOSEBRACE) {
+                    else if (types.get(size-1).equals(TYPE_CLOSEBRACE)) {
                         // xoa dau dong ngoac
                         deleteValue(size-1);
                         openingBraces++;
@@ -431,7 +407,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_brace = (Button) findViewById(R.id.buttonBrace);
+        Button btn_brace = (Button) findViewById(R.id.buttonBrace);
         btn_brace.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(size == 0) {
@@ -451,11 +427,11 @@ public class MainActivity extends AppCompatActivity {
                             openingBraces++;
                         }
                     }
-                    else if (types.get(size-1)==TYPE_OPENBRACE) {
+                    else if (types.get(size-1).equals(TYPE_OPENBRACE)) {
                         addValue("(",TYPE_OPENBRACE);
                         openingBraces++;
                     }
-                    else if (types.get(size-1)==TYPE_CLOSEBRACE) {
+                    else if (types.get(size-1).equals(TYPE_CLOSEBRACE)) {
                         if (openingBraces > 0) {
                             addValue(")",TYPE_CLOSEBRACE);
                             openingBraces--;
@@ -474,14 +450,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_equal = (Button) findViewById(R.id.buttonEqual);
+        Button btn_equal = (Button) findViewById(R.id.buttonEqual);
         btn_equal.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 caculate();
             }
         });
 
-        btn_history = (ImageButton) findViewById(R.id.buttonHistory);
+        ImageButton btn_history = (ImageButton) findViewById(R.id.buttonHistory);
         btn_history.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // history view
@@ -522,30 +498,6 @@ public class MainActivity extends AppCompatActivity {
         // them dau '.', chuyen int thanh float
         values.set(index, values.get(index)+".");
         types.set(index,TYPE_FLOAT);
-        inputChange();
-    }
-
-    private void updateNumber_deleteNumber(int index){
-        String oldNumber = values.get(index);
-        if (oldNumber.length()<=1) {
-            // xoa ki tu cuoi cung cua so
-            deleteValue(index);
-            size--;
-        }
-        else {
-            // chua xoa het so
-            String newNumber = oldNumber.substring(0, oldNumber.length()-2);
-            values.set(index, newNumber);
-        }
-        inputChange();
-    }
-
-    private void updateNumber_deleteDot(int index) {
-        // xoa dau '.', chuyen float ve int
-        String oldNumber = values.get(index);
-        String newNumber = oldNumber.substring(0, oldNumber.length()-2);
-        values.set(index, newNumber);
-        types.set(index,TYPE_INT);
         inputChange();
     }
 
