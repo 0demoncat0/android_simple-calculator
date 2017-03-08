@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private static final char OP_MULTIPLICATION = '*';
     private static final char OP_DIVISION = '/';
 
+    // encode cac toan tu trong html
     private static final String V_ADDITION = "&#43;";
     private static final String V_SUBTRACTION = "&#8722;";
     private static final String V_MULTIPLICATION = "&#215;";
@@ -38,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
     private String output;
     private TextView mainTextView;
 
-    private ArrayList<String> values;
-    private ArrayList<String> types;
-    private int size;
-    private int openingBraces = 0;
+    private ArrayList<String> values;   // cac gia tri nhap vao
+    private ArrayList<String> types;    // kieu cua cac gia tri nhap vao
+    private int size;                   // kich thuoc 2 arraylist
+    private int openingBraces = 0;      // so ngoac mo chua dong
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         mainTextView.setText("");
     }
 
+    // ham tinh toan chinh
     private void caculate() {
         String result = "";
         String baiToan = input.trim();
@@ -94,12 +96,12 @@ public class MainActivity extends AppCompatActivity {
                     output+= values.get(i);
                 }
             }
-            //output+= "\n= "+kq;
             output += "<font color=\"#3da23e\">" + "<br>= "+ result + "</font>";
         }
         mainTextView.setText(Html.fromHtml(output),TextView.BufferType.SPANNABLE);
     }
 
+    // thay doi hien thi khi input thay doi
     private void inputChange() {
         input = "";
         output = "";
@@ -126,8 +128,7 @@ public class MainActivity extends AppCompatActivity {
         mainTextView.setText(Html.fromHtml(output),TextView.BufferType.SPANNABLE);
     }
 
-
-
+    // gan su kien cho cac nut
     private void initButtons() {
         Button btn_0 = (Button) findViewById(R.id.buttonZero);
         btn_0.setOnClickListener(new View.OnClickListener() {
@@ -198,9 +199,6 @@ public class MainActivity extends AppCompatActivity {
                 numberButtonClickHandler(9);
             }
         });
-
-
-        // === SPEC BUTTONS ===
 
         Button btn_dot = (Button) findViewById(R.id.buttonDot);
         btn_dot.setOnClickListener(new View.OnClickListener() {
@@ -465,46 +463,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-    // ============================
-
-    private void addValue (String value, String type) {
-        values.add(value);
-        types.add(type);
-        size ++;
-        inputChange();
-    }
-
-    private void insertValue (String value, String type, int index) {
-        values.add(index, value);
-        types.add(index, type);
-        size ++;
-        inputChange();
-    }
-
-    private void deleteValue (int index) {
-        values.remove(index);
-        types.remove(index);
-        size --;
-        inputChange();
-    }
-
-    private void updateNumber_addNumber (int index, String number){
-        values.set(index, values.get(index)+number);
-        inputChange();
-    }
-
-    private void updateNumber_addDot(int index) {
-        // them dau '.', chuyen int thanh float
-        values.set(index, values.get(index)+".");
-        types.set(index,TYPE_FLOAT);
-        inputChange();
-    }
-
-    private boolean isNumber (int index){
-        return (types.get(index).equals(TYPE_INT) || types.get(index).equals(TYPE_FLOAT));
-    }
-
+    // gan su kien cho cac nut so
     private void numberButtonClickHandler(int btnNumber) {
         if (size > 0) {
             if (types.get(size-1).equals(TYPE_CLOSEBRACE)) {
@@ -526,5 +485,47 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // them doi tuong vao arraylist sau khi nhap
+    private void addValue (String value, String type) {
+        values.add(value);
+        types.add(type);
+        size ++;
+        inputChange();
+    }
+
+    // chen doi tuong vao arraylist
+    private void insertValue (String value, String type, int index) {
+        values.add(index, value);
+        types.add(index, type);
+        size ++;
+        inputChange();
+    }
+
+    // xoa doi tuong khoi arraylist
+    private void deleteValue (int index) {
+        values.remove(index);
+        types.remove(index);
+        size --;
+        inputChange();
+    }
+
+    // them so
+    private void updateNumber_addNumber (int index, String number){
+        values.set(index, values.get(index)+number);
+        inputChange();
+    }
+
+    //
+    private void updateNumber_addDot(int index) {
+        // them dau '.', chuyen int thanh float
+        values.set(index, values.get(index)+".");
+        types.set(index,TYPE_FLOAT);
+        inputChange();
+    }
+
+    // kiem tra gia tri trong arraylist co phai la so
+    private boolean isNumber (int index){
+        return (types.get(index).equals(TYPE_INT) || types.get(index).equals(TYPE_FLOAT));
+    }
 
 }
