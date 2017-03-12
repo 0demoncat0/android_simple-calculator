@@ -5,5 +5,5 @@
     <dimen name="ParentLayoutPaddingBottom">0dp</dimen>
     <dimen name="ParentLayoutPaddingLeft">0dp</dimen>
     <dimen name="ButtonPadding">0dp</dimen>
-    <dimen name="RowHeight">62dp</dimen>
+    <dimen name="textViewHeight">160dp</dimen>
 </resources>

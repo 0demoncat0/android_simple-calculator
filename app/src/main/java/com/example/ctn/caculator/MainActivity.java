@@ -1,12 +1,14 @@
 package com.example.ctn.caculator;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.math.RoundingMode;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private String input;
     private String output;
     private TextView mainTextView;
+    private HorizontalScrollView scrollView;
 
     private ArrayList<String> values;   // cac gia tri nhap vao
     private ArrayList<String> types;    // kieu cua cac gia tri nhap vao
@@ -49,33 +52,46 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // init variables
+        // khoi tao cac gia tri
         input = "";
         output = "";
         values = new ArrayList<>();
         types = new ArrayList<>();
         size = 0;
-        mainTextView = (TextView) findViewById(R.id.mainTextView);
-        mainTextView.setMovementMethod(new ScrollingMovementMethod());
-        initButtons();
 
+        mainTextView = (TextView) findViewById(R.id.mainTextView);
+        mainTextView.setMinWidth(Resources.getSystem().getDisplayMetrics().widthPixels);    // minWidth texview = chieu rong man hinh
         mainTextView.setText("");
+
+        /*
+        LinearLayout keyLayout = (LinearLayout) findViewById(R.id.keyLayout);
+        // Gets the layout params that will allow you to resize the layout
+        ViewGroup.LayoutParams params = keyLayout.getLayoutParams();
+        // Changes the height and width to the specified *pixels*
+        params.height = (Resources.getSystem().getDisplayMetrics().widthPixels) - scrollView.getHeight();
+        keyLayout.setLayoutParams(params);
+        */
+
+        scrollView = (HorizontalScrollView) findViewById(R.id.mainScrollView);
+
+        initButtons();
     }
 
     // ham tinh toan chinh
     private void caculate() {
-        String result = "";
+        String result = ""; // ket qua tinh toan
         String baiToan = input.trim();
         if (baiToan.trim().length() > 0) {
-            Calulate c = new Calulate(baiToan);
+            Calulation c = new Calulation(baiToan);
             if (c.isError()) {
                 result = c.getError();
             } else {
                 DecimalFormat df = new DecimalFormat("#.####");
                 df.setRoundingMode(RoundingMode.CEILING);
-                result = df.format(c.getResult());
+                result = df.format(c.getResult());  // lam tron 4 chu so thap phan
             }
         }
+
         input = "";
         output = "";
         if (!values.isEmpty() && !result.isEmpty()) {
@@ -98,7 +114,16 @@ public class MainActivity extends AppCompatActivity {
             }
             output += "<font color=\"#3da23e\">" + "<br>= "+ result + "</font>";
         }
+        // hien thi
         mainTextView.setText(Html.fromHtml(output),TextView.BufferType.SPANNABLE);
+
+        // xem texview tu ben phai
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(ScrollView.FOCUS_RIGHT);
+            }
+        });
     }
 
     // thay doi hien thi khi input thay doi
@@ -106,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         input = "";
         output = "";
         if (!values.isEmpty()) {
+            // thay the cac toan tu bang ki hieu trong html
             for (int i = 0; i < size; i++) {
                 input += values.get(i);
                 if (values.get(i).equals(String.valueOf(OP_ADDITION))) {
@@ -125,7 +151,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+        //  hien thi
         mainTextView.setText(Html.fromHtml(output),TextView.BufferType.SPANNABLE);
+
+        // xem texview tu ben phai
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(ScrollView.FOCUS_RIGHT);
+            }
+        });
     }
 
     // gan su kien cho cac nut
@@ -362,7 +397,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button btn_del = (Button) findViewById(R.id.buttonDel);
+        ImageButton btn_del = (ImageButton) findViewById(R.id.buttonDel);
         btn_del.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (size>0){

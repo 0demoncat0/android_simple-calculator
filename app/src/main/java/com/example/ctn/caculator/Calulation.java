@@ -3,7 +3,7 @@ package com.example.ctn.caculator;
 import java.util.Arrays;
 import java.util.Stack;
 
-class Calulate {
+class Calulation {
 
     // attributes
     private String math;
@@ -12,7 +12,7 @@ class Calulate {
     private String error = null;
 
     // constructor
-    public Calulate(String inputMath) {
+    public Calulation(String inputMath) {
         this.result = valueMath(inputMath);
     }
 
