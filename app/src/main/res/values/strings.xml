@@ -7,4 +7,5 @@
     <string name="sign">+/-</string>
     <string name="clear">C</string>
     <string name="history">Lịch sử</string>
+    <string name="fontMain">sans-serif-light</string>
 </resources>

@@ -4,6 +4,10 @@
     <dimen name="ParentLayoutPaddingRight">0dp</dimen>
     <dimen name="ParentLayoutPaddingBottom">0dp</dimen>
     <dimen name="ParentLayoutPaddingLeft">0dp</dimen>
+
     <dimen name="ButtonPadding">0dp</dimen>
     <dimen name="textViewHeight">160dp</dimen>
+
+    <dimen name="text_size_main">30sp</dimen>
+    <dimen name="text_size_op">40sp</dimen>
 </resources>

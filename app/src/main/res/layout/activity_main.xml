@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="2">
+        android:layout_weight="3">
         <HorizontalScrollView
             android:id="@+id/mainScrollView"
             android:layout_width="match_parent"
@@ -26,8 +26,8 @@
                 android:paddingLeft="10dp"
                 android:maxLines="2"
                 android:gravity="right"
-                android:text="12312+4\n=55"
-                android:textColor="#505050"
+                android:textColor="@color/color_text_main"
+                android:fontFamily="@string/fontMain"
                 android:textSize="50sp" />
         </HorizontalScrollView>
     </LinearLayout>
@@ -36,17 +36,16 @@
         android:id="@+id/keyLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:orientation="vertical">
 
         <ImageButton
             android:id="@+id/buttonHistory"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:background="@drawable/button_history"
             android:contentDescription="@string/history"
             android:src="@drawable/ic_expand_more_black_24dp"
-            android:textSize="20sp"
             tools:ignore="NestedWeights" />
 
         <LinearLayout
@@ -60,9 +59,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_op"
+                android:fontFamily="@string/fontMain"
                 android:text="@string/clear"
-                android:textColor="@color/color_btn_clear"
-                android:textSize="20sp" />
+                android:textColor="@color/color_text_clear"
+                android:textSize="@dimen/text_size_main"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/buttonDiv"
@@ -70,9 +71,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_op"
+                android:fontFamily="@string/fontMain"
                 android:text="@string/div"
-                android:textColor="@color/color_btn_op"
-                android:textSize="32sp" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_op" />
 
             <Button
                 android:id="@+id/buttonMul"
@@ -80,9 +82,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_op"
+                android:fontFamily="@string/fontMain"
                 android:text="@string/mul"
-                android:textColor="@color/color_btn_op"
-                android:textSize="32sp" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_op" />
 
             <ImageButton
                 android:id="@+id/buttonDel"
@@ -90,9 +93,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_op"
+                android:contentDescription="Delete"
                 android:src="@drawable/ic_backspace_black_24dp"
-                android:textColor="@color/color_btn_op"
-                android:contentDescription="Delete" />
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
         <LinearLayout
@@ -106,9 +109,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_main"
+                android:fontFamily="@string/fontMain"
                 android:text="7"
-                android:textColor="@color/color_btn_main"
-                android:textSize="20sp" />
+                android:textColor="@color/color_text_main"
+                android:textSize="@dimen/text_size_main" />
 
             <Button
                 android:id="@+id/buttonEight"
@@ -116,9 +120,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_main"
+                android:fontFamily="@string/fontMain"
                 android:text="8"
-                android:textColor="@color/color_btn_main"
-                android:textSize="20sp" />
+                android:textColor="@color/color_text_main"
+                android:textSize="@dimen/text_size_main" />
 
             <Button
                 android:id="@+id/buttonNine"
@@ -126,9 +131,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_main"
+                android:fontFamily="@string/fontMain"
                 android:text="9"
-                android:textColor="@color/color_btn_main"
-                android:textSize="20sp" />
+                android:textColor="@color/color_text_main"
+                android:textSize="@dimen/text_size_main" />
 
             <Button
                 android:id="@+id/buttonSub"
@@ -136,9 +142,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_op"
+                android:fontFamily="@string/fontMain"
                 android:text="@string/sub"
-                android:textColor="@color/color_btn_op"
-                android:textSize="32sp" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_op" />
         </LinearLayout>
 
         <LinearLayout
@@ -152,9 +159,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_main"
+                android:fontFamily="@string/fontMain"
                 android:text="4"
-                android:textColor="@color/color_btn_main"
-                android:textSize="20sp" />
+                android:textColor="@color/color_text_main"
+                android:textSize="@dimen/text_size_main" />
 
             <Button
                 android:id="@+id/buttonFive"
@@ -162,9 +170,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_main"
+                android:fontFamily="@string/fontMain"
                 android:text="5"
-                android:textColor="@color/color_btn_main"
-                android:textSize="20sp" />
+                android:textColor="@color/color_text_main"
+                android:textSize="@dimen/text_size_main" />
 
             <Button
                 android:id="@+id/buttonSix"
@@ -172,9 +181,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_main"
+                android:fontFamily="@string/fontMain"
                 android:text="6"
-                android:textColor="@color/color_btn_main"
-                android:textSize="20sp" />
+                android:textColor="@color/color_text_main"
+                android:textSize="@dimen/text_size_main" />
 
             <Button
                 android:id="@+id/buttonAdd"
@@ -182,9 +192,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_op"
+                android:fontFamily="@string/fontMain"
                 android:text="@string/add"
-                android:textColor="@color/color_btn_op"
-                android:textSize="32sp" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_op" />
         </LinearLayout>
 
         <LinearLayout
@@ -198,9 +209,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_main"
+                android:fontFamily="@string/fontMain"
                 android:text="1"
-                android:textColor="@color/color_btn_main"
-                android:textSize="20sp" />
+                android:textColor="@color/color_text_main"
+                android:textSize="@dimen/text_size_main" />
 
             <Button
                 android:id="@+id/buttonTwo"
@@ -208,9 +220,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_main"
+                android:fontFamily="@string/fontMain"
                 android:text="2"
-                android:textColor="@color/color_btn_main"
-                android:textSize="20sp" />
+                android:textColor="@color/color_text_main"
+                android:textSize="@dimen/text_size_main" />
 
             <Button
                 android:id="@+id/buttonThree"
@@ -218,9 +231,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_main"
+                android:fontFamily="@string/fontMain"
                 android:text="3"
-                android:textColor="@color/color_btn_main"
-                android:textSize="20sp" />
+                android:textColor="@color/color_text_main"
+                android:textSize="@dimen/text_size_main" />
 
             <Button
                 android:id="@+id/buttonBrace"
@@ -228,9 +242,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_op"
+                android:fontFamily="@string/fontMain"
                 android:text="()"
-                android:textColor="@color/color_btn_op"
-                android:textSize="20sp" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="25sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -244,9 +259,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_main"
+                android:fontFamily="@string/fontMain"
                 android:text="0"
-                android:textColor="@color/color_btn_main"
-                android:textSize="20sp" />
+                android:textColor="@color/color_text_main"
+                android:textSize="@dimen/text_size_main" />
 
             <Button
                 android:id="@+id/buttonDot"
@@ -254,9 +270,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_main"
+                android:fontFamily="@string/fontMain"
                 android:text="."
-                android:textColor="@color/color_btn_main"
-                android:textSize="20sp" />
+                android:textColor="@color/color_text_main"
+                android:textSize="@dimen/text_size_main" />
 
             <Button
                 android:id="@+id/buttonSign"
@@ -264,9 +281,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_main"
+                android:fontFamily="@string/fontMain"
                 android:text="@string/sign"
-                android:textColor="@color/color_btn_main"
-                android:textSize="20sp" />
+                android:textColor="@color/color_text_main"
+                android:textSize="@dimen/text_size_main" />
 
             <Button
                 android:id="@+id/buttonEqual"
@@ -274,9 +292,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_op"
+                android:fontFamily="@string/fontMain"
                 android:text="="
-                android:textColor="@color/color_btn_equal"
-                android:textSize="32sp" />
+                android:textColor="@color/color_text_equal"
+                android:textSize="@dimen/text_size_op" />
         </LinearLayout>
     </LinearLayout>
 

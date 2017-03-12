@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1393b6</color>
+    <color name="colorPrimary">#1393B6</color>
     <color name="colorPrimaryDark">#127B98</color>
+    <color name="colorBackground">#ECECEC</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="color_btn_main">#616161</color>
-    <color name="color_btn_op">#127B98</color>
-    <color name="color_btn_clear">#7E57C2</color>
-    <color name="color_btn_equal">#3da23e</color>
+
+    <color name="color_btn_history">#D6DCDC</color>
+    <color name="color_btn_main">#F9F9F9</color>
+    <color name="color_btn_op">#EFF1F0</color>
+    <color name="color_stroke">#D4DADD</color>
+    <color name="color_text_main">#2D4D55</color>
+    <color name="color_text_clear">#3E81CB</color>
+    <color name="color_text_equal">#3DA23E</color>
 </resources>
