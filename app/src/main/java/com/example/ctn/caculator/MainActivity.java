@@ -11,10 +11,11 @@ import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
-
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,7 +46,12 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> values;   // cac gia tri nhap vao
     private ArrayList<String> types;    // kieu cua cac gia tri nhap vao
     private int size;                   // kich thuoc 2 arraylist
-    private int openingBraces = 0;      // so ngoac mo chua dong
+
+    private int openingBraces;          // so ngoac mo chua dong
+
+    private boolean ansAvailable;       // da co ket qua tu phep tinh truoc
+    private double ansValue;            // ket qua tu phep tinh truoc
+    private String ansType;             // kieu cua gia tri tu phep tinh truoc (int/double)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,24 +64,38 @@ public class MainActivity extends AppCompatActivity {
         values = new ArrayList<>();
         types = new ArrayList<>();
         size = 0;
+        openingBraces = 0;
+        ansAvailable = false ;
+        ansValue = 0;
 
         mainTextView = (TextView) findViewById(R.id.mainTextView);
         mainTextView.setMinWidth(Resources.getSystem().getDisplayMetrics().widthPixels);    // minWidth texview = chieu rong man hinh
         mainTextView.setText("");
 
-        /*
-        LinearLayout keyLayout = (LinearLayout) findViewById(R.id.keyLayout);
-        // Gets the layout params that will allow you to resize the layout
-        ViewGroup.LayoutParams params = keyLayout.getLayoutParams();
-        // Changes the height and width to the specified *pixels*
-        params.height = (Resources.getSystem().getDisplayMetrics().widthPixels) - scrollView.getHeight();
-        keyLayout.setLayoutParams(params);
-        */
-
         scrollView = (HorizontalScrollView) findViewById(R.id.mainScrollView);
 
         initButtons();
     }
+
+    private String formatNumber(double d){
+        NumberFormat nf = NumberFormat.getNumberInstance(Locale.US);
+        DecimalFormat df = (DecimalFormat)nf;
+        df.applyPattern("###,###.###");
+        return df.format(d);
+    }
+
+    private double formatDouble(String string){
+        NumberFormat format = NumberFormat.getInstance(Locale.US);
+        Number number;
+        try {
+            number = format.parse(string);
+            return number.doubleValue();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 
     // ham tinh toan chinh
     private void caculate() {
@@ -84,14 +104,16 @@ public class MainActivity extends AppCompatActivity {
         if (baiToan.trim().length() > 0) {
             Calulation c = new Calulation(baiToan);
             if (c.isError()) {
+                //phep tinh loi
                 result = c.getError();
+                clearAns(); // khong luu gia tri phep tinh
             } else {
-                DecimalFormat df = new DecimalFormat("#.####");
-                df.setRoundingMode(RoundingMode.CEILING);
-                result = df.format(c.getResult());  // lam tron 4 chu so thap phan
+                result = formatNumber(c.getResult());  // lam tron 4 chu so thap phan
+                setAns(formatDouble(result)); // luu gia tri phep tinh
             }
         }
 
+        // thay the input bang cac ki tu de hien thi
         input = "";
         output = "";
         if (!values.isEmpty() && !result.isEmpty()) {
@@ -238,6 +260,12 @@ public class MainActivity extends AppCompatActivity {
         Button btn_dot = (Button) findViewById(R.id.buttonDot);
         btn_dot.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                // xoa phep tinh truoc
+                if (ansAvailable) {
+                    clearFields();
+                    clearAns();
+                }
+
                 if (size > 0) {
                     if (types.get(size - 1).equals(TYPE_INT)) {
                         //phia truoc la so nguyen -> float
@@ -273,6 +301,12 @@ public class MainActivity extends AppCompatActivity {
         Button btn_sign = (Button) findViewById(R.id.buttonSign);
         btn_sign.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                // xoa phep tinh truoc
+                if (ansAvailable) {
+                    clearFields();
+                    clearAns();
+                }
+
                 if (size == 0) {
                     addValue("(", TYPE_OPENBRACE);
                     openingBraces++;
@@ -339,19 +373,29 @@ public class MainActivity extends AppCompatActivity {
         Button btn_clear = (Button) findViewById(R.id.buttonClear);
         btn_clear.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                input = "";
-                output = "";
-                values.clear();
-                types.clear();
-                size = 0;
-                openingBraces = 0;
-                inputChange();
+                clearFields();
+                clearAns();
             }
         });
 
         Button btn_mul = (Button) findViewById(R.id.buttonMul);
         btn_mul.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if (ansAvailable) {
+                    // neu co phep tinh truoc
+                    // xoa man hinh
+                    clearFields();
+                    // lay ket qua tu phep tinh truoc
+                    if (ansValue<0) {
+                        // neu am -> them (-
+                        addValue("(", TYPE_OPENBRACE);
+                        openingBraces++;
+                        addValue(String.valueOf(OP_SUBTRACTION), TYPE_OPERATOR_L);
+                        ansValue = 0 - ansValue;
+                    }
+                    addValue(String.valueOf(ansValue),ansType);
+                    clearAns();
+                }
                 if (size > 0) {
                     if (isNumber(size-1) || values.get(size-1).equals(")")) {
                         // truoc do la so hoac ")"
@@ -364,6 +408,21 @@ public class MainActivity extends AppCompatActivity {
         Button btn_div = (Button) findViewById(R.id.buttonDiv);
         btn_div.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if (ansAvailable) {
+                    // neu co phep tinh truoc
+                    // xoa man hinh
+                    clearFields();
+                    // lay ket qua tu phep tinh truoc
+                    if (ansValue<0) {
+                        // neu am -> them (-
+                        addValue("(", TYPE_OPENBRACE);
+                        openingBraces++;
+                        addValue(String.valueOf(OP_SUBTRACTION), TYPE_OPERATOR_L);
+                        ansValue = 0 - ansValue;
+                    }
+                    addValue(String.valueOf(ansValue),ansType);
+                    clearAns();
+                }
                 if (size > 0) {
                     if (isNumber(size-1) || values.get(size-1).equals(")")) {
                         // truoc do la so hoac ")"
@@ -376,6 +435,21 @@ public class MainActivity extends AppCompatActivity {
         Button btn_add = (Button) findViewById(R.id.buttonAdd);
         btn_add.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if (ansAvailable) {
+                    // neu co phep tinh truoc
+                    // xoa man hinh
+                    clearFields();
+                    // lay ket qua tu phep tinh truoc
+                    if (ansValue<0) {
+                        // neu am -> them (-
+                        addValue("(", TYPE_OPENBRACE);
+                        openingBraces++;
+                        addValue(String.valueOf(OP_SUBTRACTION), TYPE_OPERATOR_L);
+                        ansValue = 0 - ansValue;
+                    }
+                    addValue(String.valueOf(ansValue),ansType);
+                    clearAns();
+                }
                 if (size > 0) {
                     if (isNumber(size-1) || values.get(size-1).equals(")")) {
                         // truoc do la so hoac ")"
@@ -388,6 +462,21 @@ public class MainActivity extends AppCompatActivity {
         Button btn_sub = (Button) findViewById(R.id.buttonSub);
         btn_sub.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if (ansAvailable) {
+                    // neu co phep tinh truoc
+                    // xoa man hinh
+                    clearFields();
+                    // lay ket qua tu phep tinh truoc
+                    if (ansValue<0) {
+                        // neu am -> them (-
+                        addValue("(", TYPE_OPENBRACE);
+                        openingBraces++;
+                        addValue(String.valueOf(OP_SUBTRACTION), TYPE_OPERATOR_L);
+                        ansValue = 0 - ansValue;
+                    }
+                    addValue(String.valueOf(ansValue),ansType);
+                    clearAns();
+                }
                 if (size > 0) {
                     if (isNumber(size-1) || values.get(size-1).equals(")")) {
                         // truoc do la so hoac ")"
@@ -400,6 +489,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton btn_del = (ImageButton) findViewById(R.id.buttonDel);
         btn_del.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                clearAns();
                 if (size>0){
                     if (isNumber(size-1)) {
                         // truoc do la so
@@ -443,6 +533,7 @@ public class MainActivity extends AppCompatActivity {
         Button btn_brace = (Button) findViewById(R.id.buttonBrace);
         btn_brace.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                clearAns();
                 if(size == 0) {
                     // chua nhap gi -> (
                     addValue("(", TYPE_OPENBRACE);
@@ -486,7 +577,9 @@ public class MainActivity extends AppCompatActivity {
         Button btn_equal = (Button) findViewById(R.id.buttonEqual);
         btn_equal.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                caculate();
+                if (!ansAvailable) {
+                    caculate();
+                }
             }
         });
 
@@ -498,8 +591,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     // gan su kien cho cac nut so
     private void numberButtonClickHandler(int btnNumber) {
+        clearAns();
         if (size > 0) {
             if (types.get(size-1).equals(TYPE_CLOSEBRACE)) {
                 // truoc do la ngoac dong
@@ -518,6 +613,36 @@ public class MainActivity extends AppCompatActivity {
         else {
             addValue(""+btnNumber,TYPE_INT);
         }
+    }
+
+
+
+    // set gia tri truoc
+    private void setAns(double value){
+        if (value%1 != 0)
+            ansType = TYPE_FLOAT;
+        else
+            ansType = TYPE_INT;
+        ansValue = value;
+        ansAvailable = true;
+    }
+
+    // xoa gia tri tuoc
+    private void clearAns() {
+        ansAvailable = false;
+        ansValue = 0;
+        ansType = null;
+    }
+
+    // reset tat ca cac gia tri
+    private void clearFields(){
+        input = "";
+        output = "";
+        values.clear();
+        types.clear();
+        size = 0;
+        openingBraces = 0;
+        inputChange();
     }
 
     // them doi tuong vao arraylist sau khi nhap
